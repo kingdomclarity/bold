@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLD Code | The BOLD Ventures Developer Terminal</title>
+<meta name="description" content="BOLD Code is the in-house developer terminal of BOLD Ventures. Built with BOLD, designed for excellence.">
+<style>
+  :root {
+    --bg: #08080c;
+    --bg-2: #0c0c12;
+    --panel: #101018;
+    --panel-2: #14141d;
+    --line: rgba(255,255,255,0.07);
+    --line-soft: rgba(255,255,255,0.045);
+    --text: #eceaf2;
+    --text-dim: #9a97a8;
+    --text-faint: #605d70;
+    --gold: #d9a94b;
+    --gold-2: #f0c975;
+    --gold-glow: rgba(217,169,75,0.16);
+    --green: #4ade80;
+    --blue: #60a5fa;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- App frame ---------- */
+  .app { display: grid; grid-template-rows: 44px 1fr 26px; height: 100vh; }
+
+  /* ---------- Title bar ---------- */
+  .titlebar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 16px;
+    background: linear-gradient(180deg, #101017, #0b0b10);
+    border-bottom: 1px solid var(--line);
+    user-select: none;
+  }
+  .traffic { display: flex; gap: 8px; }
+  .traffic span { width: 12px; height: 12px; border-radius: 50%; display: block; }
+  .traffic .r { background: #ff5f57; } .traffic .y { background: #febc2e; } .traffic .g { background: #28c840; }
+  .wordmark {
+    display: flex; align-items: baseline; gap: 8px;
+    font-weight: 800; letter-spacing: 0.14em; font-size: 13px;
+  }
+  .wordmark b { background: linear-gradient(120deg, var(--gold-2), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .wordmark small { font-weight: 500; letter-spacing: 0.28em; color: var(--text-faint); font-size: 9px; }
+  .tb-center { flex: 1; display: flex; justify-content: center; }
+  .tb-project {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 5px 14px; font-size: 12px; color: var(--text-dim);
+  }
+  .tb-project .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .tb-project b { color: var(--text); font-weight: 600; }
+  .tb-right { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-faint); }
+  .badge-lang {
+    border: 1px solid rgba(217,169,75,0.35); color: var(--gold-2);
+    padding: 3px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 0.1em; font-weight: 600;
+    background: var(--gold-glow);
+  }
+
+  /* ---------- Main layout ---------- */
+  .main { display: grid; grid-template-columns: 264px 1fr 300px; min-height: 0; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    background: var(--bg-2);
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; min-height: 0;
+  }
+  .search {
+    margin: 14px 14px 6px;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 9px; padding: 8px 12px; color: var(--text-faint); font-size: 12px;
+  }
+  .search input {
+    background: transparent; border: 0; outline: 0; color: var(--text);
+    font-size: 12px; width: 100%; font-family: var(--sans);
+  }
+  .side-scroll { flex: 1; overflow-y: auto; padding: 8px 10px 10px; min-height: 0; }
+  .side-scroll::-webkit-scrollbar { width: 3px; }
+  .side-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .section-label {
+    font-size: 9.5px; letter-spacing: 0.22em; font-weight: 700; color: var(--text-faint);
+    padding: 14px 10px 8px;
+  }
+  .proj {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 10px; border-radius: 10px; cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+  }
+  .proj:hover { background: rgba(255,255,255,0.035); }
+  .proj:active { transform: scale(0.985); }
+  .proj.active {
+    background: linear-gradient(120deg, rgba(217,169,75,0.13), rgba(217,169,75,0.04));
+    border-color: rgba(217,169,75,0.3);
+  }
+  .proj .mono-icon {
+    width: 30px; height: 30px; border-radius: 8.5px;
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.02em;
+    color: #0b0b10; flex-shrink: 0;
+  }
+  .proj .meta { min-width: 0; flex: 1; }
+  .proj .name { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .proj .sub { font-size: 10px; color: var(--text-faint); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .proj .status { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .status.live { background: var(--green); box-shadow: 0 0 6px rgba(74,222,128,0.7); }
+  .status.dev { background: var(--gold); box-shadow: 0 0 6px rgba(217,169,75,0.7); }
+  .status.idle { background: #4b4960; }
+  .divider {
+    height: 1px; margin: 14px 10px 2px;
+    background: linear-gradient(90deg, transparent, rgba(217,169,75,0.35), transparent);
+  }
+  .side-foot {
+    border-top: 1px solid var(--line-soft);
+    padding: 10px 16px; font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.04em;
+  }
+  .side-foot a { color: var(--gold); text-decoration: none; }
+
+  /* ---------- Workspace ---------- */
+  .work { display: grid; grid-template-rows: 40px 1fr 220px; min-width: 0; min-height: 0; background: var(--bg); }
+  .tabs {
+    display: flex; align-items: center; gap: 2px;
+    border-bottom: 1px solid var(--line); padding: 0 10px; background: var(--bg-2);
+    overflow-x: auto;
+  }
+  .tab {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11.5px; color: var(--text-dim);
+    padding: 8px 16px; border-radius: 8px 8px 0 0; cursor: pointer;
+    border: 1px solid transparent; border-bottom: 0;
+    white-space: nowrap; font-family: var(--mono);
+  }
+  .tab.active { background: var(--bg); color: var(--gold-2); border-color: var(--line); position: relative; top: 1px; }
+  .tab .fdot { width: 6px; height: 6px; border-radius: 2px; background: var(--gold); }
+  .editor-wrap { display: grid; grid-template-columns: 200px 1fr; min-height: 0; }
+  .filetree {
+    border-right: 1px solid var(--line-soft); background: var(--bg-2);
+    padding: 12px 8px; overflow-y: auto; font-family: var(--mono);
+  }
+  .ft-label { font-size: 9px; letter-spacing: 0.2em; color: var(--text-faint); padding: 2px 8px 8px; font-family: var(--sans); font-weight: 700; }
+  .ft-item { font-size: 11px; color: var(--text-dim); padding: 5px 8px; border-radius: 6px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ft-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+  .ft-item.on { color: var(--gold-2); background: var(--gold-glow); }
+  .ft-item.dir { color: var(--text); font-weight: 600; }
+  .editor {
+    overflow: auto; padding: 18px 22px; font-family: var(--mono);
+    font-size: 12.5px; line-height: 1.75; min-width: 0;
+  }
+  .editor::-webkit-scrollbar { width: 4px; height: 4px; }
+  .editor::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .code-line { display: flex; gap: 20px; white-space: pre; }
+  .ln { color: #3a3850; width: 26px; text-align: right; flex-shrink: 0; user-select: none; }
+  .k  { color: var(--gold-2); font-weight: 600; }
+  .s  { color: #9ce8b1; }
+  .c  { color: #56536b; font-style: italic; }
+  .fn { color: var(--blue); }
+  .at { color: var(--purple); }
+  .n  { color: #f2a3b3; }
+
+  /* ---------- Terminal ---------- */
+  .terminal {
+    border-top: 1px solid var(--line);
+    background: #07070b;
+    display: flex; flex-direction: column; min-height: 0;
+  }
+  .term-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 8px 16px; border-bottom: 1px solid var(--line-soft);
+    font-size: 10px; letter-spacing: 0.18em; color: var(--text-faint); font-weight: 700;
+  }
+  .term-head .pill { color: var(--gold-2); }
+  .term-body {
+    flex: 1; overflow-y: auto; padding: 12px 18px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.7;
+  }
+  .term-body::-webkit-scrollbar { width: 4px; }
+  .term-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+  .tl { white-space: pre-wrap; word-break: break-word; }
+  .tl .p { color: var(--gold); font-weight: 700; }
+  .tl .ok { color: var(--green); }
+  .tl .info { color: var(--blue); }
+  .tl .dim { color: var(--text-faint); }
+  .term-input {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 18px; border-top: 1px solid var(--line-soft);
+    font-family: var(--mono); font-size: 12px;
+  }
+  .term-input .p { color: var(--gold); font-weight: 700; }
+  .term-input input {
+    flex: 1; background: transparent; border: 0; outline: 0;
+    color: var(--text); font-family: var(--mono); font-size: 12px;
+  }
+
+  /* ---------- Right panel: BOLD Intelligence ---------- */
+  .intel {
+    border-left: 1px solid var(--line); background: var(--bg-2);
+    display: flex; flex-direction: column; min-height: 0;
+  }
+  .intel-head {
+    padding: 14px 16px; border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .intel-orb {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, var(--gold-2), var(--gold) 55%, #7a5a1e);
+    box-shadow: 0 0 16px var(--gold-glow);
+  }
+  .intel-head b { font-size: 12.5px; letter-spacing: 0.03em; }
+  .intel-head small { display: block; font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.12em; margin-top: 1px; }
+  .intel-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .intel-body::-webkit-scrollbar { width: 3px; }
+  .intel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+  .msg { font-size: 11.5px; line-height: 1.65; padding: 10px 13px; border-radius: 12px; max-width: 95%; }
+  .msg.ai { background: var(--panel-2); border: 1px solid var(--line-soft); color: var(--text-dim); align-self: flex-start; }
+  .msg.ai b { color: var(--gold-2); font-weight: 600; }
+  .msg.me { background: linear-gradient(120deg, rgba(217,169,75,0.22), rgba(217,169,75,0.1)); border: 1px solid rgba(217,169,75,0.3); align-self: flex-end; color: var(--text); }
+  .intel-input {
+    padding: 12px; border-top: 1px solid var(--line-soft);
+  }
+  .intel-input .box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 9px 12px;
+    transition: border-color 0.2s;
+  }
+  .intel-input .box:focus-within { border-color: rgba(217,169,75,0.5); box-shadow: 0 0 0 3px var(--gold-glow); }
+  .intel-input input {
+    flex: 1; background: transparent; border: 0; outline: 0;
+    color: var(--text); font-size: 11.5px; font-family: var(--sans);
+  }
+  .send {
+    width: 24px; height: 24px; border-radius: 8px; border: 0; cursor: pointer;
+    background: linear-gradient(120deg, var(--gold-2), var(--gold));
+    color: #0b0b10; font-weight: 800; font-size: 12px; display: grid; place-items: center;
+  }
+
+  /* ---------- Status bar ---------- */
+  .statusbar {
+    display: flex; align-items: center; gap: 18px;
+    padding: 0 16px; font-size: 10px; color: var(--text-faint);
+    background: linear-gradient(180deg, #0b0b10, #08080c);
+    border-top: 1px solid var(--line);
+    letter-spacing: 0.04em;
+  }
+  .statusbar .gold { color: var(--gold); }
+  .statusbar .grow { flex: 1; text-align: center; font-style: italic; color: #55526a; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+  @media (max-width: 1100px) { .main { grid-template-columns: 240px 1fr; } .intel { display: none; } }
+  @media (max-width: 760px) { .main { grid-template-columns: 1fr; } .sidebar { display: none; } .editor-wrap { grid-template-columns: 1fr; } .filetree { display: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="titlebar">
+    <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="wordmark"><b>BOLD</b> <span style="font-weight:300;color:var(--text-dim)">CODE</span> <small>TERMINAL</small></div>
+    <div class="tb-center">
+      <div class="tb-project"><span class="dot"></span> <span id="tbProject"><b>BOLD Ventures</b> &nbsp;main</span></div>
+    </div>
+    <div class="tb-right">
+      <span class="badge-lang">BOLD v1.0</span>
+      <span id="clock"></span>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <aside class="sidebar">
+      <div class="search">&#9906; <input id="searchBox" placeholder="Search projects..."></div>
+      <div class="side-scroll">
+        <div class="section-label">CORE</div>
+        <div id="coreList"></div>
+        <div class="divider"></div>
+        <div class="section-label">CLIENTS</div>
+        <div id="clientList"></div>
+      </div>
+      <div class="side-foot">Designed and Developed by <a href="https://BOLDStudios.io" target="_blank" rel="noopener">BOLD Studios</a>.</div>
+    </aside>
+
+    <section class="work">
+      <div class="tabs" id="tabs"></div>
+      <div class="editor-wrap">
+        <div class="filetree" id="filetree"></div>
+        <div class="editor" id="editor"></div>
+      </div>
+      <div class="terminal">
+        <div class="term-head">BOLD TERMINAL <span class="pill" id="termProj">bold-ventures</span> <span style="flex:1"></span> <span class="dim">bld 1.0.0</span></div>
+        <div class="term-body" id="termBody"></div>
+        <div class="term-input">
+          <span class="p" id="termPrompt">bold-ventures &#10095;</span>
+          <input id="termInput" placeholder="Type a command... try: help, build, deploy, projects, verse" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+    </section>
+
+    <aside class="intel">
+      <div class="intel-head">
+        <div class="intel-orb"></div>
+        <div><b>BOLD Intelligence</b><small>AI BUILD ASSISTANT</small></div>
+      </div>
+      <div class="intel-body" id="intelBody">
+        <div class="msg ai">Welcome back, Brett. I am connected to <b>BOLD v1</b> and every project in your workspace. Tell me what to build and I will scaffold it, compile it, and stage it for deploy.</div>
+      </div>
+      <div class="intel-input">
+        <div class="box">
+          <input id="intelInput" placeholder="Ask BOLD to build anything...">
+          <button class="send" id="intelSend">&#10148;</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="statusbar">
+    <span><span class="gold">&#9670;</span> BOLD OS Connected</span>
+    <span id="sbBranch">main &#8593;0 &#8595;0</span>
+    <span class="grow" id="verseBar">"Whatever you do, work at it with all your heart, as working for the Lord." Colossians 3:23</span>
+    <span>BOLD</span>
+    <span class="gold">Deploy: Ready</span>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- Project data ---------------- */
+  var PROJECTS = [
+    { id: "bold-ventures", name: "BOLD Ventures", sub: "Parent company HQ", group: "core", status: "live", color: "linear-gradient(135deg,#f0c975,#d9a94b)", mono: "BV",
+      files: ["app.bold", "pages/home.bold", "pages/portfolio.bold", "theme.bold"],
+      code: [
+        ["c", "// BOLD Ventures HQ, written in BOLD"],
+        ["", ""],
+        ["k app", ' s"BOLD Ventures"'],
+        ["k   theme", " at Gold"],
+        ["k   font", ' s"Display"'],
+        ["", ""],
+        ["k page", " fn Home", " k at", ' s"/"'],
+        ["k   hero", ""],
+        ["k     title", ' s"Build BOLD. Build for the Kingdom."'],
+        ["k     subtitle", ' s"One family of companies. One standard of excellence."'],
+        ["k     button", ' s"See the Portfolio"', " k goto", " fn Portfolio"],
+        ["", ""],
+        ["k   grid", " n 3", " k of", " fn VentureCard", " k from", " at ventures"],
+        ["", ""],
+        ["k data", " at ventures", ""],
+        ["k   item", ' s"BOLD Studios"  s"Creative + platform builds"'],
+        ["k   item", ' s"BOLD Social"   s"The flagship consumer app"'],
+        ["k   item", ' s"BOLD Foundation" s"Giving, trust, transparency"']
+      ] },
+    { id: "bold-studios", name: "BOLD Studios", sub: "Creative and platform builds", group: "core", status: "live", color: "linear-gradient(135deg,#c084fc,#7c3aed)", mono: "BS",
+      files: ["app.bold", "pages/services.bold", "pages/work.bold", "components/reel.bold"],
+      code: [
+        ["c", "// BOLD Studios, the agency engine"],
+        ["", ""],
+        ["k app", ' s"BOLD Studios"'],
+        ["k   theme", " at Midnight"],
+        ["", ""],
+        ["k page", " fn Services", " k at", ' s"/services"'],
+        ["k   section", ' s"What we build"'],
+        ["k     card", ' s"Platforms"  s"Full web apps on the BOLD stack"'],
+        ["k     card", ' s"Clipping"   s"Daily short-form content engines"'],
+        ["k     card", ' s"Artist Sites" s"Intake to live in under an hour"'],
+        ["", ""],
+        ["k   cta", ' s"Start a project"', " k goto", " fn Contact"]
+      ] },
+    { id: "bold-one", name: "BOLD One", sub: "Identity + subscriptions", group: "core", status: "dev", color: "linear-gradient(135deg,#60a5fa,#2563eb)", mono: "B1",
+      files: ["app.bold", "auth/identity.bold", "billing/tiers.bold"],
+      code: [
+        ["c", "// BOLD One, one login and one subscription across every BOLD app"],
+        ["", ""],
+        ["k app", ' s"BOLD One"'],
+        ["", ""],
+        ["k plans", ""],
+        ["k   plan", ' s"Believer"  n 9', " c  // Social + Foundation"],
+        ["k   plan", ' s"Builder"   n 29', " c // adds Studios tools + BOLD Code"],
+        ["k   plan", ' s"Kingdom"   n 79', " c // everything, family accounts, priority"],
+        ["", ""],
+        ["k rule", ' s"One account unlocks the whole BOLD family."']
+      ] },
+    { id: "bold-social", name: "BOLD Social", sub: "Flagship consumer platform", group: "core", status: "dev", color: "linear-gradient(135deg,#fb7185,#e11d48)", mono: "SO",
+      files: ["app.bold", "feed/feed.bold", "creator/smartlink.bold", "market/clips.bold"],
+      code: [
+        ["c", "// BOLD Social, the platform the world scrolls next"],
+        ["", ""],
+        ["k app", ' s"BOLD Social"'],
+        ["", ""],
+        ["k page", " fn Feed", " k at", ' s"/"'],
+        ["k   feed", " k of", " fn Post", " k from", " at posts"],
+        ["k     like", " k share", " k clip", " k give"],
+        ["", ""],
+        ["k page", " fn SmartLink", " k at", ' s"/link"'],
+        ["k   builder", ' s"One link. Every platform. Zero friction."']
+      ] },
+    { id: "bold-foundation", name: "BOLD Foundation", sub: "Giving and trust dashboard", group: "core", status: "dev", color: "linear-gradient(135deg,#4ade80,#16a34a)", mono: "BF",
+      files: ["app.bold", "donors/portal.bold", "trust/dashboard.bold"],
+      code: [
+        ["c", "// BOLD Foundation, generosity with total transparency"],
+        ["", ""],
+        ["k app", ' s"BOLD Foundation"'],
+        ["", ""],
+        ["k page", " fn Trust", " k at", ' s"/trust"'],
+        ["k   stat", ' s"Given to date"', " k live", " at totalGiven"],
+        ["k   stat", ' s"Families served"', " k live", " at families"],
+        ["k   note", ' s"Every dollar tracked. Every gift honored."']
+      ] },
+    { id: "asap-preach", name: "ASAP Preach Music", sub: "Artist platform", group: "client", status: "live", color: "linear-gradient(135deg,#f97316,#c2410c)", mono: "AP",
+      files: ["app.bold", "pages/music.bold", "pages/epk.bold"],
+      code: [
+        ["c", "// ASAP Preach, artist site on the BOLD template"],
+        ["", ""],
+        ["k app", ' s"ASAP Preach"'],
+        ["k   theme", " at Ember"],
+        ["", ""],
+        ["k page", " fn Music", " k at", ' s"/music"'],
+        ["k   player", " k from", " at latestRelease"],
+        ["k   grid", " n 4", " k of", " fn TrackCard", " k from", " at catalog"]
+      ] },
+    { id: "oppscore", name: "OppScore", sub: "Accountability scoring", group: "client", status: "live", color: "linear-gradient(135deg,#94a3b8,#475569)", mono: "OS",
+      files: ["app.bold", "scores/engine.bold", "pages/rankings.bold"],
+      code: [
+        ["c", "// OppScore, political accountability scoring"],
+        ["", ""],
+        ["k app", ' s"OppScore"'],
+        ["", ""],
+        ["k page", " fn Rankings", " k at", ' s"/rankings"'],
+        ["k   table", " k of", " fn ScoreRow", " k from", " at scores"],
+        ["k     sort", " k by", " at score", " k desc"]
+      ] },
+    { id: "galileyo", name: "Galileyo Studios", sub: "Streaming + community", group: "client", status: "dev", color: "linear-gradient(135deg,#22d3ee,#0e7490)", mono: "GS",
+      files: ["app.bold", "live/stream.bold", "community/rooms.bold"],
+      code: [
+        ["c", "// Galileyo Studios, streaming and community"],
+        ["", ""],
+        ["k app", ' s"Galileyo Studios"'],
+        ["", ""],
+        ["k page", " fn Live", " k at", ' s"/live"'],
+        ["k   stream", " k from", " at channel"],
+        ["k   chat", " k live", ""]
+      ] },
+    { id: "his-glory", name: "His Glory Music", sub: "Streaming + commerce", group: "client", status: "live", color: "linear-gradient(135deg,#facc15,#a16207)", mono: "HG",
+      files: ["app.bold", "pages/listen.bold", "shop/store.bold"],
+      code: [
+        ["c", "// His Glory Music, music that moves Heaven"],
+        ["", ""],
+        ["k app", ' s"His Glory Music"'],
+        ["", ""],
+        ["k page", " fn Listen", " k at", ' s"/listen"'],
+        ["k   player", " k from", " at revivalAlbum"],
+        ["k   cta", ' s"Stream Revival"', " k goto", " fn Listen"]
+      ] }
+  ];
+
+  var VERSES = [
+    '"Whatever you do, work at it with all your heart, as working for the Lord." Colossians 3:23',
+    '"Unless the Lord builds the house, the builders labor in vain." Psalm 127:1',
+    '"Commit to the Lord whatever you do, and he will establish your plans." Proverbs 16:3',
+    '"Let all things be done decently and in order." 1 Corinthians 14:40',
+    '"Do you see someone skilled in their work? They will serve before kings." Proverbs 22:29'
+  ];
+
+  var current = PROJECTS[0];
+
+  /* ---------------- Sidebar ---------------- */
+  function renderSidebar(filter) {
+    var core = document.getElementById("coreList");
+    var clients = document.getElementById("clientList");
+    core.innerHTML = ""; clients.innerHTML = "";
+    PROJECTS.forEach(function (p) {
+      if (filter && p.name.toLowerCase().indexOf(filter.toLowerCase()) === -1) return;
+      var el = document.createElement("div");
+      el.className = "proj" + (p.id === current.id ? " active" : "");
+      el.innerHTML =
+        '<div class="mono-icon" style="background:' + p.color + '">' + p.mono + "</div>" +
+        '<div class="meta"><div class="name">' + p.name + '</div><div class="sub">' + p.sub + "</div></div>" +
+        '<div class="status ' + p.status + '"></div>';
+      el.onclick = function () { switchProject(p); };
+      (p.group === "core" ? core : clients).appendChild(el);
+    });
+  }
+
+  /* ---------------- Workspace ---------------- */
+  function renderTabs() {
+    var t = document.getElementById("tabs");
+    t.innerHTML = "";
+    current.files.slice(0, 3).forEach(function (f, i) {
+      var el = document.createElement("div");
+      el.className = "tab" + (i === 0 ? " active" : "");
+      el.innerHTML = '<span class="fdot"></span>' + f;
+      el.onclick = function () {
+        Array.prototype.forEach.call(t.children, function (c) { c.classList.remove("active"); });
+        el.classList.add("active");
+      };
+      t.appendChild(el);
+    });
+  }
+
+  function renderTree() {
+    var ft = document.getElementById("filetree");
+    var html = '<div class="ft-label">EXPLORER</div><div class="ft-item dir">&#9662; ' + current.id + "</div>";
+    current.files.forEach(function (f, i) {
+      html += '<div class="ft-item' + (i === 0 ? " on" : "") + '">&nbsp;&nbsp;&#9671; ' + f + "</div>";
+    });
+    ft.innerHTML = html;
+  }
+
+  function renderCode() {
+    var ed = document.getElementById("editor");
+    ed.innerHTML = "";
+    current.code.forEach(function (line, idx) {
+      var row = document.createElement("div");
+      row.className = "code-line";
+      var content = line.map(function (tok) {
+        if (tok === "" || tok === undefined) return "";
+        var t = tok.replace(/^\s+/, "");
+        var m = t.match(/^(c|k|s|fn|at|n)\s([\s\S]*)$/);
+        if (m) return '<span class="' + m[1] + '">' + esc(m[2]) + "</span>";
+        return esc(tok);
+      }).filter(Boolean).join(" ");
+      row.innerHTML = '<span class="ln">' + (idx + 1) + "</span><span>" + (content || "&nbsp;") + "</span>";
+      ed.appendChild(row);
+    });
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /* ---------------- Terminal ---------------- */
+  var termBody = document.getElementById("termBody");
+  var queue = [];
+  var typing = false;
+
+  function termLine(html) { queue.push(html); pump(); }
+
+  function pump() {
+    if (typing || !queue.length) return;
+    typing = true;
+    var html = queue.shift();
+    var el = document.createElement("div");
+    el.className = "tl";
+    el.innerHTML = html;
+    termBody.appendChild(el);
+    termBody.scrollTop = termBody.scrollHeight;
+    setTimeout(function () { typing = false; pump(); }, 90);
+  }
+
+  function bootLines(p) {
+    termLine('<span class="p">' + p.id + ' &#10095;</span> <span class="dim">workspace loaded</span>');
+    termLine('<span class="ok">&#10003;</span> BOLD toolchain ready <span class="dim">(bld 1.0.0)</span>');
+    termLine('<span class="info">&#9670;</span> ' + p.files.length + " source files &#183; branch main &#183; status: " + (p.status === "live" ? '<span class="ok">LIVE</span>' : '<span style="color:var(--gold-2)">IN DEVELOPMENT</span>'));
+  }
+
+  function runCommand(cmd) {
+    var c = cmd.trim().toLowerCase();
+    termLine('<span class="p">' + current.id + ' &#10095;</span> ' + esc(cmd));
+    if (!c) return;
+    if (c === "help") {
+      termLine('<span class="dim">Commands:</span> build &#183; deploy &#183; projects &#183; status &#183; verse &#183; clear');
+    } else if (c === "clear") {
+      termBody.innerHTML = "";
+    } else if (c === "projects") {
+      PROJECTS.forEach(function (p) {
+        termLine((p.group === "core" ? '<span class="info">CORE  </span>' : '<span class="dim">CLIENT</span>') + " " + p.name + ' <span class="dim">(' + p.status + ")</span>");
+      });
+    } else if (c === "build" || c === "bld build") {
+      termLine('<span class="info">&#9881;</span> Compiling ' + current.files.length + " .bold files...");
+      termLine('<span class="ok">&#10003;</span> Parsed &#183; type-checked &#183; optimized');
+      termLine('<span class="ok">&#10003;</span> Build complete in 0.42s. Output: dist/');
+    } else if (c === "deploy") {
+      termLine('<span class="info">&#9650;</span> Pushing to BOLD Cloud...');
+      termLine('<span class="ok">&#10003;</span> Deployed. ' + current.name + " is live.");
+    } else if (c === "status") {
+      termLine(current.name + ": <span class='ok'>" + current.status.toUpperCase() + "</span> &#183; main &#183; all checks passing");
+    } else if (c === "verse") {
+      termLine('<span style="color:var(--gold-2)">' + esc(VERSES[Math.floor(Math.random() * VERSES.length)]) + "</span>");
+    } else {
+      termLine('<span class="dim">Unknown command. Type</span> help');
+    }
+  }
+
+  document.getElementById("termInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { runCommand(this.value); this.value = ""; }
+  });
+
+  /* ---------------- BOLD Intelligence ---------------- */
+  var intelBody = document.getElementById("intelBody");
+  function intelSay(text, me) {
+    var el = document.createElement("div");
+    el.className = "msg " + (me ? "me" : "ai");
+    el.innerHTML = text;
+    intelBody.appendChild(el);
+    intelBody.scrollTop = intelBody.scrollHeight;
+  }
+  function intelAsk() {
+    var inp = document.getElementById("intelInput");
+    var v = inp.value.trim();
+    if (!v) return;
+    intelSay(esc(v), true);
+    inp.value = "";
+    setTimeout(function () {
+      intelSay("On it. I will scaffold that in <b>" + current.name + "</b> in BOLD, wire the data layer, and run the build. Watch the terminal for progress.", false);
+      termLine('<span class="info">&#9670;</span> BOLD Intelligence: scaffolding "' + esc(v) + '"');
+      setTimeout(function () {
+        termLine('<span class="ok">&#10003;</span> Generated pages/new-feature.bold');
+        termLine('<span class="ok">&#10003;</span> Compiled clean. Preview ready.');
+      }, 700);
+    }, 500);
+  }
+  document.getElementById("intelSend").onclick = intelAsk;
+  document.getElementById("intelInput").addEventListener("keydown", function (e) { if (e.key === "Enter") intelAsk(); });
+
+  /* ---------------- Project switching ---------------- */
+  function switchProject(p) {
+    if (p.id === current.id) return;
+    current = p;
+    renderSidebar(document.getElementById("searchBox").value);
+    renderTabs(); renderTree(); renderCode();
+    document.getElementById("tbProject").innerHTML = "<b>" + p.name + "</b> &nbsp;main";
+    document.getElementById("termProj").textContent = p.id;
+    document.getElementById("termPrompt").innerHTML = p.id + " &#10095;";
+    bootLines(p);
+  }
+
+  document.getElementById("searchBox").addEventListener("input", function () {
+    renderSidebar(this.value);
+  });
+
+  /* ---------------- Clock + verse rotation ---------------- */
+  function tick() {
+    var d = new Date();
+    document.getElementById("clock").textContent =
+      d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+  tick(); setInterval(tick, 15000);
+
+  var vi = 0;
+  setInterval(function () {
+    vi = (vi + 1) % VERSES.length;
+    document.getElementById("verseBar").textContent = VERSES[vi];
+  }, 12000);
+
+  /* ---------------- Boot ---------------- */
+  renderSidebar("");
+  renderTabs(); renderTree(); renderCode();
+  termLine('<span style="color:var(--gold-2);font-weight:700">BOLD CODE TERMINAL</span> <span class="dim">v1.0 &#183; the BOLD Ventures developer environment</span>');
+  bootLines(current);
+})();
+</script>
+</body>
+</html>
