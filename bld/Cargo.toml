@@ -1,0 +1,15 @@
+[package]
+name = "bld"
+version = "1.0.0"
+edition = "2021"
+description = "bld, the CLI and compiler for BOLD, the in-house programming language of BOLD Ventures"
+license = "UNLICENSED"
+
+[[bin]]
+name = "bld"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true

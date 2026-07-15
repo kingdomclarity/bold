@@ -1,0 +1,9 @@
+# BOLD ecosystem site: static publish with the toolkit zip built at deploy time.
+[build]
+  command = "node bold-web/make-playground.js && cp bold-playground.html site/playground.html && mkdir -p site/downloads && cp site/os.html site/downloads/bold-os.html && cp site/terminal.html site/downloads/bold-code-terminal.html && cp bold-playground.html site/downloads/bold-playground.html && zip -rq site/downloads/bold-toolkit.zip bld bold-web docs -x 'bld/target/*'"
+  publish = "site"
+
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    Content-Disposition = "attachment"
