@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOLD | The Ecosystem: One Language, One OS, One Standard of Excellence</title>
+<meta name="description" content="BOLD is the technology ecosystem of BOLD Ventures: the BOLD programming language, the bld toolchain, BOLD OS, and the BOLD Code terminal. Built to advance the Kingdom of God. Free to download.">
+<meta property="og:title" content="BOLD | The Ecosystem">
+<meta property="og:description" content="One language. One OS. One standard of excellence. Download BOLD free.">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#07070b;--bg2:#0b0b11;--panel:#10101a;--line:rgba(255,255,255,.08);--line-soft:rgba(255,255,255,.05);
+  --text:#eceaf2;--dim:#9a97a8;--faint:#605d70;
+  --gold:#d9a94b;--gold2:#f0c975;--glow:rgba(217,169,75,.16);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:var(--gold2);text-decoration:none}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+
+/* nav */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,7,11,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:26px;height:60px}
+.wordmark{font-weight:800;letter-spacing:.16em;font-size:15px;background:linear-gradient(120deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;font-size:12.5px}
+.nav-links a{color:var(--dim);transition:color .2s}
+.nav-links a:hover{color:var(--gold2)}
+.nav-in .grow{flex:1}
+.btn{display:inline-block;background:linear-gradient(120deg,var(--gold2),var(--gold));color:#0b0b10;font-weight:700;font-size:13px;padding:11px 24px;border-radius:11px;letter-spacing:.02em;transition:transform .18s,box-shadow .18s;box-shadow:0 8px 26px rgba(217,169,75,.25)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(217,169,75,.4)}
+.btn.ghost{background:transparent;color:var(--gold2);border:1px solid rgba(217,169,75,.4);box-shadow:none}
+.btn.sm{padding:8px 18px;font-size:11.5px}
+
+/* hero */
+.hero{padding:110px 0 90px;text-align:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(700px 420px at 50% -10%,rgba(217,169,75,.14),transparent 65%);pointer-events:none}
+.kicker{font-size:11px;letter-spacing:.3em;font-weight:700;color:var(--gold);margin-bottom:22px}
+h1{font-size:clamp(38px,6.4vw,72px);font-weight:800;letter-spacing:-.025em;line-height:1.05}
+h1 .g{background:linear-gradient(120deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:24px auto 0;max-width:640px;color:var(--dim);font-size:clamp(15px,2vw,18px)}
+.hero .ctas{margin-top:38px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero .verse{margin-top:56px;font-size:12px;color:var(--faint);font-style:italic}
+
+/* sections */
+section{padding:84px 0;border-top:1px solid var(--line-soft)}
+h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-.02em}
+h2 .g{background:linear-gradient(120deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--dim);max-width:640px;margin-top:14px;font-size:15.5px}
+
+/* language */
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:44px;align-items:start}
+.code{background:#050508;border:1px solid var(--line);border-radius:16px;padding:22px 24px;font-family:var(--mono);font-size:12.5px;line-height:1.85;overflow-x:auto}
+.code .k{color:var(--gold2);font-weight:600}.code .s{color:#9ce8b1}.code .c{color:#56536b;font-style:italic}.code .fn{color:#60a5fa}.code .n{color:#f2a3b3}
+.feat{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.feat:last-child{border-bottom:0}
+.feat .ic{width:34px;height:34px;border-radius:10px;background:var(--glow);border:1px solid rgba(217,169,75,.3);display:grid;place-items:center;color:var(--gold2);font-size:14px;flex-shrink:0}
+.feat b{font-size:14px}
+.feat p{color:var(--dim);font-size:12.5px;margin-top:3px}
+
+/* ecosystem */
+.eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.eco{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;transition:transform .2s,border-color .2s;display:block;color:var(--text)}
+.eco:hover{transform:translateY(-4px);border-color:rgba(217,169,75,.45)}
+.eco .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#0b0b10;margin-bottom:16px}
+.eco b{font-size:15.5px}
+.eco p{color:var(--dim);font-size:12.5px;margin-top:6px}
+.eco .tag{display:inline-block;margin-top:14px;font-size:9.5px;letter-spacing:.14em;font-weight:700;color:var(--gold2);border:1px solid rgba(217,169,75,.35);border-radius:999px;padding:4px 11px;background:var(--glow)}
+
+/* downloads */
+.dl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:44px}
+.dl{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;gap:18px;align-items:flex-start}
+.dl .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#0b0b10;flex-shrink:0;background:linear-gradient(135deg,var(--gold2),var(--gold))}
+.dl b{font-size:15px}
+.dl p{color:var(--dim);font-size:12.5px;margin:5px 0 14px}
+.install{margin-top:36px;background:#050508;border:1px solid var(--line);border-radius:16px;padding:20px 24px;font-family:var(--mono);font-size:12.5px;line-height:2;color:var(--dim)}
+.install .p{color:var(--gold)}
+.install b{color:var(--text);font-weight:400}
+
+/* mission */
+.mission{text-align:center}
+.mission .lead{margin-left:auto;margin-right:auto}
+.pillars{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.pillar{font-size:11.5px;letter-spacing:.08em;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:8px 18px}
+.mission .verse{margin:48px auto 0;max-width:560px;font-style:italic;color:var(--dim);font-size:15px;border-top:1px solid rgba(217,169,75,.3);border-bottom:1px solid rgba(217,169,75,.3);padding:24px 10px}
+.mission .verse cite{display:block;margin-top:10px;font-size:11px;letter-spacing:.16em;color:var(--gold2);font-style:normal}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;font-size:12px;color:var(--faint)}
+footer a{color:var(--gold2)}
+
+@media(max-width:900px){.lang-grid{grid-template-columns:1fr}.eco-grid{grid-template-columns:1fr 1fr}.dl-grid{grid-template-columns:1fr}.nav-links{display:none}}
+@media(max-width:560px){.eco-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <span class="wordmark">BOLD</span>
+  <div class="nav-links">
+    <a href="#language">Language</a><a href="#ecosystem">Ecosystem</a><a href="#downloads">Downloads</a><a href="#mission">Mission</a>
+  </div>
+  <span class="grow"></span>
+  <a class="btn sm" href="os.html">Launch BOLD OS</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">THE BOLD ECOSYSTEM</div>
+  <h1>One language. One OS.<br>One standard of <span class="g">excellence</span>.</h1>
+  <p>BOLD is the in-house technology of BOLD Ventures: our own programming language, our own Rust-built toolchain, our own operating environment, and our own developer terminal. Free to download. Built to advance the Kingdom of God.</p>
+  <div class="ctas">
+    <a class="btn" href="#downloads">Download BOLD</a>
+    <a class="btn ghost" href="playground.html">Try it in the Playground</a>
+  </div>
+  <div class="verse">"Unless the Lord builds the house, the builders labor in vain." Psalm 127:1</div>
+</div></header>
+
+<section id="language"><div class="wrap">
+  <h2>The <span class="g">BOLD</span> programming language</h2>
+  <p class="lead">Strictly typed, explicitly written, and honest at compile time. BOLD reads like intent and refuses to guess, so the mistakes other languages find in production, BOLD finds before the program ever runs.</p>
+  <div class="lang-grid">
+    <div class="code"><span class="c">// bonus.bold, running today through the bld toolchain</span>
+<span class="k">import</span> system
+
+<span class="k">struct</span> <span class="fn">Developer</span> {
+    name: <span class="fn">String</span>
+    experienceYears: <span class="fn">Int</span>
+    isActive: <span class="fn">Bool</span>
+}
+
+<span class="k">fn</span> <span class="fn">calculateBonus</span>(dev: <span class="fn">Developer</span>, rating: <span class="fn">Float</span>) -&gt; <span class="fn">Float</span> {
+    <span class="k">if</span> dev.experienceYears &gt; <span class="n">5</span> {
+        <span class="k">return</span> rating * <span class="n">1500.00</span>
+    }
+    <span class="k">return</span> rating * <span class="n">500.00</span>
+}
+
+<span class="k">fn</span> <span class="fn">main</span>() {
+    <span class="k">let</span> senior = <span class="fn">Developer</span> { name: <span class="s">"Andras"</span>, experienceYears: <span class="n">8</span>, isActive: <span class="k">true</span> }
+    system.print(calculateBonus(senior, <span class="n">4.5</span>))
+}</div>
+    <div>
+      <div class="feat"><div class="ic">&#9878;</div><div><b>Strict static typing, zero implicit conversions</b><p>Int plus Float is a compile-time error with a diagnostic that names the fix. What you wrote is what runs.</p></div></div>
+      <div class="feat"><div class="ic">&#9889;</div><div><b>The bld toolchain, built completely in Rust</b><p>One native binary, no runtime dependencies. Programs check in microseconds. bld run, bld check, bld fmt.</p></div></div>
+      <div class="feat"><div class="ic">&#9634;</div><div><b>Two layers, one language</b><p>A typed core for logic and data, and a declarative app layer that compiles straight to finished, beautiful web apps with the BOLD design system built in.</p></div></div>
+      <div class="feat"><div class="ic">&#10022;</div><div><b>Learnable in an afternoon</b><p>The full Learn BOLD course ships with the toolkit, and the playground teaches the app layer live in your browser. Never obscure, always ours.</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="ecosystem"><div class="wrap">
+  <h2>The <span class="g">ecosystem</span></h2>
+  <p class="lead">Apple has iOS and macOS. We have BOLD OS: one home for every BOLD app, one login through BOLD One, one design standard across the whole family.</p>
+  <div class="eco-grid">
+    <a class="eco" href="os.html"><div class="ic" style="background:linear-gradient(135deg,#f0c975,#d9a94b)">OS</div><b>BOLD OS</b><p>The operating environment. Desktop, dock, App Store, and every BOLD app in one place.</p><span class="tag">LAUNCH IN BROWSER</span></a>
+    <a class="eco" href="terminal.html"><div class="ic" style="background:linear-gradient(135deg,#c084fc,#7c3aed)">BC</div><b>BOLD Code Terminal</b><p>The developer command center. Every project in the sidebar, the BOLD toolchain underneath.</p><span class="tag">LAUNCH IN BROWSER</span></a>
+    <a class="eco" href="playground.html"><div class="ic" style="background:linear-gradient(135deg,#60a5fa,#2563eb)">PL</div><b>BOLD Playground</b><p>Write BOLD on the left, watch your app build live on the right. The Learn BOLD course included.</p><span class="tag">LAUNCH IN BROWSER</span></a>
+    <div class="eco"><div class="ic" style="background:linear-gradient(135deg,#fb7185,#e11d48)">SO</div><b>BOLD Social</b><p>The flagship consumer platform. Create, share, clip, and give.</p><span class="tag">IN DEVELOPMENT</span></div>
+    <div class="eco"><div class="ic" style="background:linear-gradient(135deg,#4ade80,#16a34a)">BF</div><b>BOLD Foundation</b><p>Generosity with total transparency. Every dollar tracked, every gift honored.</p><span class="tag">IN DEVELOPMENT</span></div>
+    <div class="eco"><div class="ic" style="background:linear-gradient(135deg,#94a3b8,#475569)">B1</div><b>BOLD One</b><p>One account, one subscription, the whole BOLD family unlocked.</p><span class="tag">COMING SOON</span></div>
+  </div>
+</div></section>
+
+<section id="downloads"><div class="wrap">
+  <h2>Download <span class="g">BOLD</span></h2>
+  <p class="lead">Everything below is free and public. Use our language, our tools, and our OS, and build something excellent with them.</p>
+  <div class="dl-grid">
+    <div class="dl"><div class="ic">bld</div><div><b>The BOLD Toolkit</b><p>Full source for the bld compiler (Rust), the app layer compiler, every example program, the language specification, and the Learn BOLD course.</p><a class="btn sm" href="downloads/bold-toolkit.zip" download>Download .zip</a></div></div>
+    <div class="dl"><div class="ic">OS</div><div><b>BOLD OS</b><p>The operating environment as a single self-contained file. Runs in any modern browser, no install required.</p><a class="btn sm" href="downloads/bold-os.html" download>Download</a> &nbsp; <a class="btn sm ghost" href="os.html">Launch</a></div></div>
+    <div class="dl"><div class="ic">BC</div><div><b>BOLD Code Terminal</b><p>The developer command center as a single self-contained file.</p><a class="btn sm" href="downloads/bold-code-terminal.html" download>Download</a> &nbsp; <a class="btn sm ghost" href="terminal.html">Launch</a></div></div>
+    <div class="dl"><div class="ic">PL</div><div><b>BOLD Playground</b><p>The live BOLD editor and Learn BOLD course as a single self-contained file.</p><a class="btn sm" href="downloads/bold-playground.html" download>Download</a> &nbsp; <a class="btn sm ghost" href="playground.html">Launch</a></div></div>
+  </div>
+  <div class="install">
+    <b>Build the bld compiler from source</b> (requires Rust)<br>
+    <span class="p">&#10095;</span> unzip bold-toolkit.zip &amp;&amp; cd bld<br>
+    <span class="p">&#10095;</span> cargo build --release<br>
+    <span class="p">&#10095;</span> ./target/release/bld run examples/hello.bold<br>
+    Hello, World!
+  </div>
+</div></section>
+
+<section id="mission" class="mission"><div class="wrap">
+  <h2>Why we <span class="g">build</span></h2>
+  <p class="lead">BOLD Ventures exists to advance the Kingdom of God through excellent work: media, music, platforms, and now the infrastructure itself. We build our own technology so that everything we make, from the language up, carries one standard and one purpose.</p>
+  <div class="pillars">
+    <span class="pillar">BOLD VENTURES</span><span class="pillar">BOLD STUDIOS</span><span class="pillar">BOLD SOCIAL</span><span class="pillar">BOLD FOUNDATION</span><span class="pillar">BOLD ONE</span><span class="pillar">BOLD UNITED</span>
+  </div>
+  <div class="verse">"And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus, giving thanks to God the Father through him."<cite>COLOSSIANS 3:17</cite></div>
+</div></section>
+
+<footer><div class="wrap">
+  Designed and Developed by <a href="https://BOLDStudios.io" target="_blank" rel="noopener">BOLD Studios</a>. &nbsp;BOLD, the bld toolchain, and BOLD OS are technology of BOLD Ventures.
+</div></footer>
+
+</body>
+</html>
