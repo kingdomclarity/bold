@@ -1,0 +1,39 @@
+// His Glory Music, written in BOLD (app layer)
+// Compile: node bld-web.js build examples/his-glory.bold
+
+app "His Glory Music"
+  theme gold
+
+page Home at "/"
+  hero
+    title "Music that moves Heaven"
+    subtitle "Streaming the sound of revival to every nation. One song at a time."
+    button "Stream Revival" goto Listen
+
+  section "Why His Glory"
+    grid 3
+      card "Faith First" "Every release is rooted in worship and built for the Kingdom."
+      card "World Class" "Produced, mixed, and mastered to the highest standard."
+      card "Global Reach" "On every platform, in every nation, around the clock."
+
+  row
+    stat "Monthly Listeners" "48K"
+    stat "Countries Reached" "112"
+    stat "Songs Released" "37"
+
+  verse "Let everything that has breath praise the Lord." "Psalm 150:6"
+
+page Listen at "/listen"
+  hero
+    title "Revival"
+    subtitle "The album that started it all. Available everywhere now."
+    button "Back Home" goto Home
+
+  section "Featured Tracks"
+    list
+      item "Revival Anthem"
+      item "Glory in the Highest"
+      item "Songs in the Night"
+      item "For the King"
+
+  cta "Listen on all platforms" goto Home
