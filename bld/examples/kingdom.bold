@@ -1,0 +1,17 @@
+// Recursion and the standard BOLD demo: fibonacci, done with excellence.
+import system
+
+fn fib(n: Int) -> Int {
+    if n < 2 {
+        return n
+    }
+    return fib(n - 1) + fib(n - 2)
+}
+
+fn main() {
+    system.print("The first twelve Fibonacci numbers:")
+    for i in 0..12 {
+        system.print(fib(i))
+    }
+    system.print("Whatever you do, work at it with all your heart. Colossians 3:23")
+}

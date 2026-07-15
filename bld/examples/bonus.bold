@@ -1,0 +1,25 @@
+// Structs, functions, and strict typing: the blueprint example, running for real.
+import system
+
+struct Developer {
+    name: String
+    experienceYears: Int
+    isActive: Bool
+}
+
+fn calculateBonus(dev: Developer, rating: Float) -> Float {
+    if dev.experienceYears > 5 {
+        return rating * 1500.00
+    }
+    return rating * 500.00
+}
+
+fn main() {
+    let senior = Developer { name: "Andras", experienceYears: 8, isActive: true }
+    let junior = Developer { name: "Tamas", experienceYears: 2, isActive: true }
+
+    system.print("Senior bonus:")
+    system.print(calculateBonus(senior, 4.5))
+    system.print("Junior bonus:")
+    system.print(calculateBonus(junior, 4.5))
+}

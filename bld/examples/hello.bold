@@ -1,0 +1,6 @@
+// The first BOLD program.
+import system
+
+fn main() {
+    system.print("Hello, World!")
+}

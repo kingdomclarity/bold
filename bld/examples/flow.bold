@@ -1,0 +1,24 @@
+// Control flow: conditionals without parentheses, ranges, mutation.
+import system
+
+fn main() {
+    let systemLoad = 85
+    if systemLoad > 90 {
+        system.print("Critical Overhead")
+    } else if systemLoad > 70 {
+        system.print("Warning Balance")
+    } else {
+        system.print("System Nominal")
+    }
+
+    mut total: Int = 0
+    for i in 0..5 {
+        total = total + i
+        system.print(i)
+    }
+    system.print("Sum of the range:")
+    system.print(total)
+
+    let message: String = "Engine " + "Active"
+    system.print(message)
+}
