@@ -1,0 +1,14 @@
+{
+  "id": "/playground.html",
+  "name": "BOLD Playground",
+  "short_name": "Playground",
+  "description": "Write BOLD on the left, watch your app build live on the right. The Learn BOLD course included.",
+  "start_url": "/playground.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08080c",
+  "theme_color": "#08080c",
+  "icons": [
+    { "src": "/icon-playground.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

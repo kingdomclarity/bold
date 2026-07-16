@@ -1,0 +1,14 @@
+{
+  "id": "/terminal.html",
+  "name": "BOLD Code Terminal",
+  "short_name": "BOLD Code",
+  "description": "The developer command center of BOLD Ventures. Every project in the sidebar, the BOLD toolchain underneath.",
+  "start_url": "/terminal.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08080c",
+  "theme_color": "#08080c",
+  "icons": [
+    { "src": "/icon-terminal.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
