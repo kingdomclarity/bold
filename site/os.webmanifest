@@ -1,0 +1,13 @@
+{
+  "name": "BOLD OS",
+  "short_name": "BOLD OS",
+  "description": "The operating environment of BOLD Ventures. Every BOLD app, one login, one standard of excellence. Built to advance the Kingdom of God.",
+  "start_url": "/os.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#07070b",
+  "icons": [
+    { "src": "/bold-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
